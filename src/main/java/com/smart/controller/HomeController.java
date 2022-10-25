@@ -76,8 +76,8 @@ public class HomeController {
 			user.setImageUrl("default.png");
 			user.setPassword(passwordEncoder.encode(user.getPassword()));
 
-			System.out.println("Agreement " + agreement);
-			System.out.println("USER " + user);
+			// System.out.println("Agreement " + agreement);
+			// System.out.println("USER " + user);
 
 			User result = this.userRepository.save(user); //to save in db.
 

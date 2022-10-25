@@ -46,11 +46,55 @@ import com.smart.helper.Message;
 @RequestMapping("/user")
 public class UserController {
 
+	@Autowired
+	UserRepository userRepository;
+
+	@ModelAttribute
+	public void addCommonData(Model model, Principal principal){
+		String userName = principal.getName();
+		User user = userRepository.getUserByUserName(userName);
+		model.addAttribute("user", user);
+	}
+
 	// dashboard home
 	@RequestMapping("/index")
 	public String dashboard(Model model, Principal principal) {
 		model.addAttribute("title", "User Dashboard");
 		return "normal/user_dashboard";
 	}
+
+	//add contacts
+	@RequestMapping("/add-contact")
+	public String addContact(Model model){
+		model.addAttribute("title", "add-contact");
+		model.addAttribute("contact", new Contact());
+		return "normal/add-contact";
+	}
+
+	//processing add-contact
+
+	@PostMapping(value="/process-contact")
+	public String processContact(@ModelAttribute Contact contact, Principal principal, HttpSession session){
+		try{
+
+			String name = principal.getName();
+			User user = userRepository.getUserByUserName(name);
+			user.getContacts().add(contact);
+			contact.setUser(user);
+			// System.out.println("----------------------"+contact + "///////////" + user);
+			session.setAttribute("message", new Message("contact saved", "success"));
+			this.userRepository.save(user);
+
+		}catch(Exception e){
+
+			e.printStackTrace();
+			session.setAttribute("message", new Message("something went wrong", "danger"));
+
+		}
+
+		return "normal/add-contact";
+	}
+	
+	
 
 }
