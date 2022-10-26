@@ -37,6 +37,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+
+import com.smart.dao.ContactRepository;
 import com.smart.dao.UserRepository;
 import com.smart.entities.Contact;
 import com.smart.entities.User;
@@ -48,6 +50,9 @@ public class UserController {
 
 	@Autowired
 	UserRepository userRepository;
+
+	@Autowired
+	ContactRepository contactRepository;
 
 	@ModelAttribute
 	public void addCommonData(Model model, Principal principal){
@@ -94,7 +99,26 @@ public class UserController {
 
 		return "normal/add-contact";
 	}
+
+	@RequestMapping("/show-contacts")
+	public String showContacts(Model model, Principal principal){
+		model.addAttribute("title", "your-contacts");
+
+		String userName = principal.getName();
+		User user = userRepository.getUserByUserName(userName);
+
+		List<Contact> contacts = this.contactRepository.getContactByUserId(user.getId());
+		model.addAttribute("contacts", contacts);	
+		System.out.println(contacts.get(0).getPhone());	
+
+
+		return "normal/show-contacts";
+	}
 	
-	
+	@RequestMapping("/profile")
+	public String userProfile(Model model){
+		model.addAttribute("title", "profile");
+		return "normal/profile";
+	}
 
 }
