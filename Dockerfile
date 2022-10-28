@@ -1,5 +1,4 @@
 FROM openjdk:11
-WORKDIR /app
-COPY pom.xml ./
-COPY . .
-CMD ["java", "/src/main/java/com/smart/SmartcontactmanagerApplication.java" ]
+ARG JAR_FILE=target/*.jar
+COPY ${JAR_FILE} app.jar
+ENTRYPOINT ["java","-jar","/app.jar"]

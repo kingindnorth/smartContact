@@ -1,13 +1,13 @@
-package com.smart;
+// package com.smart;
 
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
+// import org.junit.jupiter.api.Test;
+// import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
-class SmartcontactmanagerApplicationTests {
+// @SpringBootTest
+// class SmartcontactmanagerApplicationTests {
 
-	@Test
-	void contextLoads() {
-	}
+// 	@Test
+// 	void contextLoads() {
+// 	}
 
-}
+// }
