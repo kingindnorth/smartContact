@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import com.smart.dao.ContactRepository;
@@ -90,5 +91,27 @@ public class UserController {
 		model.addAttribute("title", "profile");
 		return "normal/profile";
 	}
+
+
+
+		// delete contact handler
+
+		@RequestMapping("/delete/{cid}")
+		public String deleteContact(@PathVariable("cid") Integer cId, Model model, HttpSession session,
+				Principal principal) {
+	
+			Contact contact = this.contactRepository.findById(cId).get();
+	
+			User user = this.userRepository.getUserByUserName(principal.getName());
+	
+			user.getContacts().remove(contact);
+	
+			this.userRepository.save(user);
+	
+
+		    session.setAttribute("message", new Message("Contact deleted succesfully...", "success"));
+	
+			return "redirect:/user/show-contacts/0";
+		}
 
 }

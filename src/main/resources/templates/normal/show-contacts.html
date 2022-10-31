@@ -33,7 +33,7 @@
                           <td ><span th:text="${c.email}"></span></td>
                           <td th:text="${c.phone}"></td>
                           <td>
-                            <i class="fa-sharp fa-solid fa-trash"></i>
+                            <a href="#" th:href="@{'/user/delete/' + ${c.cId}}" class="btn btn-danger btn-sm">Delete</a>
                             <i class="fa-solid fa-pencil"></i>
                           </td>
     
